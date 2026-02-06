@@ -1,0 +1,27 @@
+﻿syntax = "proto3";
+option csharp_namespace = "AerospikeProtobufExample.Generated";
+
+message Employee {
+   int32 id = 1;
+   string fullName = 2;
+   string email = 3;
+}
+
+//syntax = "proto3";
+
+import "google/protobuf/duration.proto";  
+import "google/protobuf/timestamp.proto";
+
+message Meeting {
+    string subject = 1;
+    google.protobuf.Timestamp start = 2;
+    google.protobuf.Duration duration = 3;
+}
+
+
+message UserRecord {
+    string user_id = 1;
+    string user_name = 2;
+    int32 login_count = 3;
+    bytes profile_picture = 4; // Aerospike stores bytes efficiently
+}
