@@ -263,3 +263,31 @@ class Program
     }
 }
 
+
+//3. Multiple bins against one key
+Key myKey = new Key("test", "test_set1", 100012);
+Bin myBin = new Bin("description", "Couch");
+Bin mySecondBin = new Bin("price", 123.50);
+Bin myThirdBin = new Bin("weight", 12);
+//Write
+client.Put(null, myKey, myBin, mySecondBin, myThirdBin);
+//Read
+//Record record = client.Get(null, myKey);
+ 
+//Get the data
+Record record = client.Get(null, myKey,"price");
+Console.WriteLine(record);
+int currentGeneration = record.generation; //6
+Console.WriteLine(currentGeneration);
+ 
+//Modify the data
+Bin updatedBin = new Bin("price", 125.50);
+ 
+//4.Thread safe updates
+//Update the data
+WritePolicy writePolicy = new WritePolicy();
+writePolicy.generationPolicy = GenerationPolicy.EXPECT_GEN_EQUAL;
+writePolicy.generation = currentGeneration;
+ 
+client.Put(writePolicy, myKey, updatedBin);
+client.Close();
