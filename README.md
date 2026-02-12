@@ -291,3 +291,51 @@ writePolicy.generation = currentGeneration;
  
 client.Put(writePolicy, myKey, updatedBin);
 client.Close();
+
+////////////////////////////////////////////////////////////
+
+//1.
+
+client = new AerospikeClient("127.0.0.1",3000);
+
+////WritePolicy writePolicy = new WritePolicy();
+
+////writePolicy.expiration = 120;
+
+Key key = new Key("test", "demodef", "key10");
+
+//client.Put(null, key, new Bin("mybinname","mybinvalue"));
+
+////client.Close();
+
+//Console.WriteLine(client.Get(null, key));
+ 
+ 
+//2. Complex Data Ob
+
+Dictionary<string, object> product = new();
+
+product.Add("name", "laptop"); 
+
+product.Add("productID", 123); 
+
+product.Add("available", true);
+ 
+Bin productBin = new Bin("product",product);
+
+client.Put(null,key,productBin);
+ 
+//Console.WriteLine(client.Get(null,key));
+ 
+Record record = client.Get(null, key);
+
+IDictionary item =  record.GetMap("product");
+ 
+foreach (var rec in item)
+
+{
+
+     Console.WriteLine(rec);
+
+}
+ 
